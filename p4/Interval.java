@@ -25,15 +25,18 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
  * This constructor assigns the start, end, and label based on what is being
  *passed in. 
  *
- * @param T start (Describe the first parameter here)
- * @param T end (Do the same for each additional parameter)
+ * @param T start 
+ *	Start of the interval
+ * @param T end 
+ *	End of the interval
  * @param String label
+ *	Label of the interval
  */
     public Interval(T start, T end, String label) {
         this.start = start;
         this.end = end;
         this.label = label;
-    }
+    } //closes the constructor
 
     @Override
     public T getStart() {
