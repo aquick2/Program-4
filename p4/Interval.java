@@ -18,6 +18,11 @@
  * @author Sharp, Bohr, Quick
  */
 public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
+	try {
+    		if (start.compareTo(end) > 0) throw new IllegalArgumentException();
+    	} catch (IllegalArgumentException e) {
+    		System.out.println("ERROR: Start cannot be greater than end of interval.");
+    	}
 	private T start;
 	private T end;
 	private String label;
@@ -81,7 +86,11 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
  */
     @Override
     public boolean overlaps(IntervalADT<T> other) throws IllegalArgumentException {
-        if (other == null) throw new IllegalArgumentException();
+       try {
+		if (other == null) throw new IllegalArgumentException();
+	} catch (IllegalArgumentException e) {
+    		System.out.println("ERROR: Cannot overlap with a null interval.");
+    	}
         if (end.compareTo(other.getStart()) < 0 || start.compareTo(other.getEnd()) > 0) {
         	return false;
         } //closes if statement
