@@ -24,12 +24,23 @@ import java.util.List;
 public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T> {
 
 	private IntervalNode<T> root;
-
+/**
+ * This accessor method overrides IntervalTreeADT to return root of IntervalNode.
+ *
+ * @return root root of IntervalNode
+ */
 	@Override
 	public IntervalNode<T> getRoot() {
 		return root;
-	}
-
+	} //closes getRoot
+/**
+ * This method inserts an interval in the tree, overriding IntervalTreeADT.
+ * Calls a helper method to help with recursion.
+ * 
+ * @param interval the interval (item) to insert in the tree.
+ * @throws IllegalArgumentException if interval is null or is found 
+ * to be a duplicate of an existing interval in this tree.            
+ */
 	@Override
 	public void insert(IntervalADT<T> interval)
 			throws IllegalArgumentException {
@@ -38,34 +49,41 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 			if (root == null) root = new IntervalNode<T>(interval);
 			else {
 				insert(interval, root);
-			}
+			}//closes try block
 		} catch (IllegalArgumentException e) {
 			System.out.print("Cannot insert a null or duplicate interval.");
-		}
-	}
-	
+		} //closes catch block
+	} //closes insert
+/**
+ * This method recursively inserts interval in the tree, called by insert(interval).
+ * 
+ * @param interval the interval (item) to insert in the tree.
+ * @param root the root node of the interval tree
+ * @throws IllegalArgumentException if interval is null or is found 
+ * to be a duplicate of an existing interval in this tree.            
+ */
 private void insert(IntervalADT<T> interval, IntervalNode<T> root) {
 	if (interval.compareTo(root.getInterval()) == 0) throw new IllegalArgumentException();
 	if (interval.getEnd().compareTo(root.getMaxEnd()) > 0) {
 		root.setMaxEnd(interval.getEnd());
-	}
+	} //closes first if statement
 	if (interval.compareTo(root.getInterval()) > 0) {
 		if (root.getRightNode() == null) {
 			root.setRightNode(new IntervalNode(interval));
-		}
+		} //closes if (root.getRightNode() == null)
 		else {
 			insert(interval, root.getRightNode());
-		}
-	}
+		} //closes else statement
+	} //closes if (interval.compareTo(root.getInterval()) > 0)
 	else {
 		if (root.getLeftNode() == null) {
 			root.setLeftNode(new IntervalNode(interval));
-		}
+		} //closes inner if statement
 		else {
 			insert(interval, root.getLeftNode());
-		}
-	}
-}
+		} //closes inner else
+	} //closes else statement
+} //closes insert(interval, root)
 
 @Override
 public void delete(IntervalADT<T> interval)
