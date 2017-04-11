@@ -84,7 +84,14 @@ private void insert(IntervalADT<T> interval, IntervalNode<T> root) {
 		} //closes inner else
 	} //closes else statement
 } //closes insert(interval, root)
-
+/**
+ * Delete the node containing the specified interval in the tree.
+ * Delete operations must also update the maxEnd of interval nodes
+ * that change as a result of deletion.  
+ *  
+ * @throws IllegalArgumentException if interval is null
+ * @throws IntervalNotFoundException if the interval does not exist.
+ */
 @Override
 public void delete(IntervalADT<T> interval)
 		throws IntervalNotFoundException, IllegalArgumentException {
