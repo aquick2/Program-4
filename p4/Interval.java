@@ -1,40 +1,62 @@
 
 public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
-
-    // TODO declare any needed data members
+	private T start;
+	private T end;
+	private String label;
 
     public Interval(T start, T end, String label) {
-        // TODO Auto-generated constructor stub
+        this.start = start;
+        this.end = end;
+        this.label = label;
     }
 
     @Override
     public T getStart() {
-        // TODO Auto-generated method stub
+        return start;
     }
 
     @Override
     public T getEnd() {
-        // TODO Auto-generated method stub
+        return end;
     }
 
     @Override
     public String getLabel() {
-        // TODO Auto-generated method stub
+        return label;
     }
 
     @Override
-    public boolean overlaps(IntervalADT<T> other) {
-        // TODO Auto-generated method stub
+    public boolean overlaps(IntervalADT<T> other) throws IllegalArgumentException {
+        if (other == null) throw new IllegalArgumentException();
+        if (end.compareTo(other.getStart()) < 0 || start.compareTo(other.getEnd()) > 0) {
+        	return false;
+        }
+        return true;
     }
 
     @Override
     public boolean contains(T point) {
-        // TODO Auto-generated method stub
+        if (start.compareTo(point) <= 0 && end.compareTo(point) >= 0) {
+        	return true;
+        }
+        return false;
     }
 
     @Override
     public int compareTo(IntervalADT<T> other) {
-        // TODO Auto-generated method stub
+        if (start.compareTo(other.getStart()) > 0) {
+        	return 1;
+        }
+        if (start.compareTo(other.getStart()) < 0) {
+        	return -1;
+        }
+        if (end.compareTo(other.getEnd())> 0) {
+        	return 1;
+        }
+        if (end.compareTo(other.getEnd()) < 0) {
+        	return -1;
+        }
+        return 0;
     }
 
 }
