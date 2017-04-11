@@ -175,7 +175,10 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 
 	@Override
 	public void printStats() {
-
+                int height = getHeight();
+                int size = getSize();
+                string treeStats = "-----------------------------------------\n" + "Height: "+ Integer.toString(height)+"Size: "+Integer.toString(size)+"\n-----------------------------------------\n";
+                System.out.println(treeStats);
 	}
 
 }
