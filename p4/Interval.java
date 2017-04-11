@@ -131,4 +131,8 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
         return 0;
     } //closes compareTo
 
+ public String toString() {
+ return getLabel() + " [" + getStart() +", " + getEnd() + "]";
+    }
+
 } //closes Interval class
