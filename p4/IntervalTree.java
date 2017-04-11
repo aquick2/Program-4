@@ -14,6 +14,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 	public void insert(IntervalADT<T> interval)
 			throws IllegalArgumentException {
 		if (interval == null) throw new IllegalArgumentException();
+		if (root == null) root = new IntervalNode<T>(interval);
 		insert(interval, root);
 
 	}
