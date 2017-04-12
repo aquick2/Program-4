@@ -224,67 +224,116 @@ public void searchPointHelper(IntervalNode<T> node, T point, List<IntervalADT<T>
 	} //closes if (node.getInterval().contains(point))
 	searchPointHelper(node.getLeftNode(), point, list);
 	searchPointHelper(node.getRightNode(), point, list);
-}
-
+} //closes searchPointHelper
+/**
+ * Get the size of the interval tree. The size is the total number of
+ * nodes present in the tree. Calls getSize(node) to perform recursion.
+ * 
+ * @return int number of nodes in the tree.
+ */
 @Override
 public int getSize() {
 	return getSize(root);
-}
+} //closes getSize
+/**
+ * Get the size of the interval tree. The size is the total number of
+ * nodes present in the tree. Calls getSize(node) to perform recursion.
+ *
+ * @param node the interval node (root) that will start the recursion
+ * @return int number of nodes in the tree.
+ */	
 private int getSize(IntervalNode<T> node) {
 	if (node.getLeftNode() == null && node.getRightNode() == null) {
 		return 1;
-	}
+	} //closes first if statement
 	if (node.getLeftNode() == null) {
 		return 1 + getSize(node.getRightNode());
-	}
+	} //closes if (node.getLeftNode() == null)
 	if (node.getRightNode() == null) {
 		return 1 + getSize(node.getLeftNode());
-	}
+	} //closes if (node.getRightNode() == null)
 	return 1 + getSize(node.getLeftNode()) + getSize(node.getRightNode());
-}
-
+} //closes getSize(node)
+/**
+ * Return the height of the interval tree at the root of the tree. 
+ * Calls getHeightHelper to solve the height recursively.
+ * 
+ * @return the height of the interval tree
+ */
 @Override
 public int getHeight() {
 	if (root == null) {
 		return 0;
-	}
+	} //closes if statement
 	return getHeightHelper(root);
-}
+} //closes getHeight
+/**
+ * Return the height of the interval tree at the root of the tree. 
+ * Called by getHeight to solve the height recursively.
+ * 
+ * @param node the interval node (root) that will start the recursion
+ * @return the height of the interval tree
+ */	
 private int getHeightHelper(IntervalNode<T> node) {
 	if (node.getLeftNode() == null && node.getRightNode() == null) {
 		return 1;
-	}
+	} // closes first if statement
 	if (node.getLeftNode() == null) {
 		return 1 + getHeightHelper(node.getRightNode());
-	}
+	} //closes if (node.getLeftNode() == null)
 	if (node.getRightNode() == null) {
 		return 1 + getHeightHelper(node.getLeftNode());
-	}
+	} //closes if (node.getRightNode() == null)
 	return 1 + Math.max(getHeightHelper(node.getLeftNode()), getHeightHelper(node.getRightNode()));
-}
+} //closes getHeightHelper
 
+/**
+ * Returns true if the tree contains an exact match for the start and end of the given interval.
+ * The label is not considered for this operation. Calls containsHelper to solve recursively.
+ *  
+ * @param interval
+ * 				target interval for which to search the tree for. 
+ * @return boolean 
+ * 			   	representing if the tree contains the interval.
+ * @throws IllegalArgumentException
+ *             	if interval is null.
+ */
 @Override
 public boolean contains(IntervalADT<T> interval) {
 	if (interval == null) throw new IllegalArgumentException();
 	return containsHelper(root, interval);
-}
+} //closes contains
+
+/**
+ * Returns true if the tree contains an exact match for the start and end of the given interval.
+ * The label is not considered for this operation. Called by contains to solve recursively.
+ *  
+ * @param interval
+ * 		target interval for which to search the tree for. 
+ * @return boolean 
+ * 		representing if the tree contains the interval.
+ * @throws IllegalArgumentException
+ *             	if interval is null.
+ */	
 private boolean containsHelper(IntervalNode<T> node, IntervalADT<T> interval) {
 	if (node.getInterval().compareTo(interval) == 0) {
 		return true;
-	}
+	} //closes if (node.getInterval().compareTo(interval) == 0)
 	if (node == null) {
 		return false;
-	}
+	} //closes if (node==null)
 	return containsHelper(node.getLeftNode(), interval) || 
 			containsHelper(node.getRightNode(), interval);
-}
-
+} //closes containsHelper
+/**
+ * Print the statistics of the tree in the specified format.
+  */
 @Override
 public void printStats() {
 	System.out.println("-----------------------------------------");
 	System.out.println("Height: " + getHeight());
 	System.out.println("Size: " + getSize());
 	System.out.println("-----------------------------------------");		
-}
+} //closes printStats
 
-}
+} //closes IntervalTree
