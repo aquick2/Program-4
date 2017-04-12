@@ -85,10 +85,12 @@ private void insert(IntervalADT<T> interval, IntervalNode<T> root) {
 	} //closes else statement
 } //closes insert(interval, root)
 /**
+ * Overrides IntervalTreeADT and calls deleteHelper. 
  * Delete the node containing the specified interval in the tree.
  * Delete operations must also update the maxEnd of interval nodes
  * that change as a result of deletion.  
  *  
+ * @param interval the interval (item) to insert in the tree.
  * @throws IllegalArgumentException if interval is null
  * @throws IntervalNotFoundException if the interval does not exist.
  */
@@ -98,8 +100,17 @@ public void delete(IntervalADT<T> interval)
 	if (interval == null) throw new IllegalArgumentException();
 	root = deleteHelper(root, interval);
 
-}
-
+} //closes delete
+/** 
+ * Recursive helper method for the delete operation. Calls updateMaxEnd
+ * 
+ * @param node the interval node that is currently being checked.
+ * @param interval the interval to delete.
+ * @throws IllegalArgumentException if the interval is null.
+ * @throws IntervalNotFoundException
+ *             if the interval is not null, but is not found in the tree.
+ * @return Root of the tree after deleting the specified interval.
+ */
 @Override
 public IntervalNode<T> deleteHelper(IntervalNode<T> node,
 		IntervalADT<T> interval)
@@ -107,72 +118,110 @@ public IntervalNode<T> deleteHelper(IntervalNode<T> node,
 	if (interval.compareTo(node.getInterval()) > 0) {
 		if (node.getRightNode() == null) throw new IntervalNotFoundException(interval.toString());
 		node.setRightNode(deleteHelper(node.getRightNode(), interval));
-	}
+	} //closes if (interval.compareTo(node.getInterval()) > 0)
 	else if (interval.compareTo(node.getInterval()) < 0) {
 		if (node.getLeftNode() == null) throw new IntervalNotFoundException(interval.toString());
 		node.setLeftNode(deleteHelper(node.getLeftNode(), interval));
-	}
+	} //closes else if statement
 	else {
 		if (node.getRightNode() != null) {
 			node.setInterval(node.getSuccessor().getInterval());
 			node.setRightNode(deleteHelper(node.getRightNode(), node.getSuccessor().getInterval()));
-		}
+		} //closes if (node.getRightNode() != null)
 		else {
 			return node.getLeftNode();
-		}
-	}
+		} //closes inner else
+	} //closes outer else statement
 	updateMaxEnd(node);
 	return node;
-}
-
+} //closes deleteHelper
+/**
+ * Called by deleteHelper to update the MaxEnd after a node is deleted.
+ *  
+ * @param node the interval node that is currently being checked.
+ */
 private void updateMaxEnd(IntervalNode<T> node) {
 	if (node.getLeftNode() != null && 
 			node.getMaxEnd().compareTo(node.getLeftNode().getMaxEnd()) < 0) {
 		node.setMaxEnd(node.getLeftNode().getMaxEnd());
-	}
+	} //closes first if statement
 	if (node.getRightNode() != null &&
 			node.getMaxEnd().compareTo(node.getRightNode().getMaxEnd()) < 0) {
 		node.setMaxEnd(node.getRightNode().getMaxEnd());
-	}
-}
-
+	} //closes second if statement
+} //closes updateMaxEnd
+/**
+ * Find and return a list of all intervals that overlap with the given interval. 
+ * This override method calls findOverlappingHelper to find the overlap recursively.
+ *  
+ * @param interval the interval to search for overlapping
+ * 
+ * @return list of intervals that overlap with the input interval.
+ */
 @Override
 public List<IntervalADT<T>> findOverlapping(
 		IntervalADT<T> interval) {
 	List<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
 	findOverlappingHelper(root, interval, list);
 	return list;
-}
+} //closes findOverlapping
+/**
+ * Find and return a list of all intervals that overlap with the given interval. 
+ * Called by findOverlapping. Uses recursion.
+ *
+ * @param node the interval node that is currently being checked.
+ * @param interval the interval to search for overlapping
+ * @param result list of intervals that are being searched for overlap
+ */
 private void findOverlappingHelper(IntervalNode node, IntervalADT interval, List<IntervalADT<T>> result) {
 	if (node == null) return;
 	if (node.getInterval().overlaps(interval)) {
 		result.add(node.getInterval());
-	}
+	} //closes if (node.getInterval().overlaps(interval))
 	if (node.getLeftNode() != null) {
 		if (node.getLeftNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
 			findOverlappingHelper(node.getLeftNode(), interval, result);
-		}
-	}
+		} //closes inner if statement
+	} //closes if (node.getLeftNode() != null)
 	if (node.getRightNode() != null) {
 		if (node.getRightNode().getMaxEnd().compareTo(interval.getStart()) >= 0) {
 			findOverlappingHelper(node.getRightNode(), interval, result);
-		}
-	}
-}
-
+		} //closes inner if statement
+	} //closes if (node.getRightNode() != null)
+} //closes findOverlappingHelper
+/**
+ * Search and return a list of all intervals containing a given point. 
+ * This method may return an empty list. Calls searchPointHelper to perform
+ * recursive search.
+ * 
+ * @throws IllegalArgumentException if point is null
+ * @param point
+ *            input point to search for.
+ * @return List of intervals containing the point.
+ */
 @Override
 public List<IntervalADT<T>> searchPoint(T point) {
 	if (point == null) throw new IllegalArgumentException();
 	List<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
 	searchPointHelper(root, point, list);
 	return list;
-}
-
+} //closes searchPoint
+/**
+ * Search and return a list of all intervals containing a given point. 
+ * Recursive method that is called by searchPoint.
+ * 
+ * @throws IllegalArgumentException if point is null
+ * @param node the interval node that is currently being checked.
+ * @param point
+ *            input point to search for.
+ * @param list  list of intervals that is being searched
+ * @return List of intervals containing the point.
+ */
 public void searchPointHelper(IntervalNode<T> node, T point, List<IntervalADT<T>> list) {
 	if (node == null) return;
 	if (node.getInterval().contains(point)) {
 		list.add(node.getInterval());
-	}
+	} //closes if (node.getInterval().contains(point))
 	searchPointHelper(node.getLeftNode(), point, list);
 	searchPointHelper(node.getRightNode(), point, list);
 }
