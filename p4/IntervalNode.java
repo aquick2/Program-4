@@ -1,3 +1,14 @@
+/////////////////////////////////////////////////////////////////////////////
+// Semester:         CS367 Spring 2017
+// PROJECT:          Program 4
+// FILE:             IntervalNode.java
+//
+// TEAM:    Team 35a
+// Authors: Jon Sharp, Lindsey Bohr, Allison Quick
+// Author1: Jon Sharp, jsharp4@wisc.edu, jsharp4, 001
+// Author2: Lindsey Bohr, bohr@wisc.edu, bohr, 001
+// Author 3: Allison Quick, aquick2@wisc.edu, aquick2, 001
+//////////////////////////// 80 columns wide //////////////////////////////////
 /**
  * This class defines the IntervalNode for the IntervalTree. This node has three
  * components: 1) interval - the data that we want to store in this node 2)
@@ -35,7 +46,7 @@ public class IntervalNode<T extends Comparable<T>> {
 		maxEnd = interval.getEnd();
 		leftNode = null;
 		rightNode = null;
-	}
+	} //closes constructor
 
 	/**
 	 * Returns the next in-order successor of the BST. Hint: Return left-most
@@ -46,9 +57,9 @@ public class IntervalNode<T extends Comparable<T>> {
 	public IntervalNode<T> getSuccessor() {
 		if (rightNode == null) {
 			return null;
-		}
+		} //closes if statement
 		return rightNode.getLeftMost();
-	}
+	} //closes getSuccessor
 	
 	/**
 	 * helper method for getSuccessor(). Recursively the left-most node in
@@ -59,18 +70,18 @@ public class IntervalNode<T extends Comparable<T>> {
 	private IntervalNode<T> getLeftMost() {
 		if (leftNode == null) {
 			return this;
-		}
+		} //closes if statement
 		return leftNode.getLeftMost();
-	}
+	} //closes getLeftMost
 
 	/**
-	 * Returns the interval associated with the node.
+	 * Accessor method that returns the interval associated with the node.
 	 * 
 	 * @return the interval data field.
 	 */
 	public IntervalADT<T> getInterval() {
 		return interval;
-	}
+	} //closes getInterval
 
 	/**
 	 * Setter for the interval.
@@ -80,7 +91,7 @@ public class IntervalNode<T extends Comparable<T>> {
 	 */
 	public void setInterval(IntervalADT<T> interval) {
 		this.interval = interval;
-	}
+	} //closes setInterval
 
 	/**
 	 * Setter for the maxEnd. This represents the maximum end point associated
@@ -93,16 +104,16 @@ public class IntervalNode<T extends Comparable<T>> {
 	 */
 	public void setMaxEnd(T maxEnd) {
 		this.maxEnd = maxEnd;
-	}
+	} //closes setMaxEnd
 
 	/**
-	 * Getter for the maxEnd member variable.
+	 * Accessor method for the maxEnd member variable.
 	 * 
 	 * @return the maxEnd.
 	 */
 	public T getMaxEnd() {
 		return maxEnd;
-	}
+	} //closes getMaxEnd
 
 	/**
 	 * Getter for the leftNode reference.
@@ -111,7 +122,7 @@ public class IntervalNode<T extends Comparable<T>> {
 	 */
 	public IntervalNode<T> getLeftNode() {
 		return leftNode;
-	}
+	} //closes getLeftNode
 
 	/**
 	 * Setter for the leftNode of this node.
@@ -121,16 +132,16 @@ public class IntervalNode<T extends Comparable<T>> {
 	 */
 	public void setLeftNode(IntervalNode<T> leftNode) {
 		this.leftNode = leftNode;
-	}
+	} //closes setLeftNode
 
 	/**
-	 * Getter for the rightNode of this node.
+	 * Accesor method for the rightNode of this node.
 	 * 
 	 * @return the rightNode.
 	 */
 	public IntervalNode<T> getRightNode() {
 		return rightNode;
-	}
+	} //closes getRightNode
 
 	/**
 	 * Setter for the rightNode of this node.
@@ -140,5 +151,5 @@ public class IntervalNode<T extends Comparable<T>> {
 	 */
 	public void setRightNode(IntervalNode<T> rightNode) {
 		this.rightNode = rightNode;
-	}
-}
+	} //closes setRightNode
+} //closes IntervalNode class
