@@ -51,7 +51,7 @@ public class IntervalTree<T extends Comparable<T>> implements IntervalTreeADT<T>
 				insert(interval, root);
 			}//closes try block
 		} catch (IllegalArgumentException e) {
-			System.out.print("Cannot insert a null or duplicate interval.");
+			System.out.print("ERROR: Cannot insert a null or duplicate interval.");
 		} //closes catch block
 	} //closes insert
 /**
@@ -97,9 +97,14 @@ private void insert(IntervalADT<T> interval, IntervalNode<T> root) {
 @Override
 public void delete(IntervalADT<T> interval)
 		throws IntervalNotFoundException, IllegalArgumentException {
+	try {
 	if (interval == null) throw new IllegalArgumentException();
 	root = deleteHelper(root, interval);
-
+	} catch (IllegalArgumentException e) {
+		System.out.println("ERROR: Cannot delete a null interval.");
+	} catch (IntervalNotFoundException e) {
+		System.out.println("ERROR: Cannot delete an interval that is not in the tree.");
+	}
 } //closes delete
 /** 
  * Recursive helper method for the delete operation. Calls updateMaxEnd
@@ -174,7 +179,7 @@ public List<IntervalADT<T>> findOverlapping(
  * @param result list of intervals that are being searched for overlap
  */
 private void findOverlappingHelper(IntervalNode node, IntervalADT interval, List<IntervalADT<T>> result) {
-	if (node == null) return;
+	if (node == null || interval == null) return;
 	if (node.getInterval().overlaps(interval)) {
 		result.add(node.getInterval());
 	} //closes if (node.getInterval().overlaps(interval))
@@ -201,10 +206,15 @@ private void findOverlappingHelper(IntervalNode node, IntervalADT interval, List
  */
 @Override
 public List<IntervalADT<T>> searchPoint(T point) {
+	try {
 	if (point == null) throw new IllegalArgumentException();
+	} catch (IllegalArgumentException e) {
+		System.out.println("ERROR: Cannot search for a null point.");
+	}
 	List<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
 	searchPointHelper(root, point, list);
 	return list;
+}
 } //closes searchPoint
 /**
  * Search and return a list of all intervals containing a given point. 
@@ -233,6 +243,9 @@ public void searchPointHelper(IntervalNode<T> node, T point, List<IntervalADT<T>
  */
 @Override
 public int getSize() {
+	if (root == null) {
+		return 0;
+	}
 	return getSize(root);
 } //closes getSize
 /**
@@ -300,7 +313,11 @@ private int getHeightHelper(IntervalNode<T> node) {
  */
 @Override
 public boolean contains(IntervalADT<T> interval) {
+	try {
 	if (interval == null) throw new IllegalArgumentException();
+	} catch (IllegalArgumentException e) {
+		System.out.println("ERROR: Tree cannot contain a null interval.");
+	}
 	return containsHelper(root, interval);
 } //closes contains
 
@@ -316,12 +333,12 @@ public boolean contains(IntervalADT<T> interval) {
  *             	if interval is null.
  */	
 private boolean containsHelper(IntervalNode<T> node, IntervalADT<T> interval) {
-	if (node.getInterval().compareTo(interval) == 0) {
-		return true;
-	} //closes if (node.getInterval().compareTo(interval) == 0)
 	if (node == null) {
 		return false;
 	} //closes if (node==null)
+	if (node.getInterval().compareTo(interval) == 0) {
+		return true;
+	} //closes if (node.getInterval().compareTo(interval) == 0)
 	return containsHelper(node.getLeftNode(), interval) || 
 			containsHelper(node.getRightNode(), interval);
 } //closes containsHelper
