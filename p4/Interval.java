@@ -139,9 +139,13 @@ public class Interval<T extends Comparable<T>> implements IntervalADT<T> {
         } //closes last if statement
         return 0;
     } //closes compareTo
-
+/**
+ * This method combines the label, start, and end into a string.
+ * Format: Label [start, end]
+ * @return The string with the above format
+ */
  public String toString() {
  return getLabel() + " [" + getStart() +", " + getEnd() + "]";
-    }
+    } //closes toString
 
 } //closes Interval class
