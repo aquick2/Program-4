@@ -102,8 +102,6 @@ public void delete(IntervalADT<T> interval)
 	root = deleteHelper(root, interval);
 	} catch (IllegalArgumentException e) {
 		System.out.println("ERROR: Cannot delete a null interval.");
-	} catch (IntervalNotFoundException e) {
-		System.out.println("ERROR: Cannot delete an interval that is not in the tree.");
 	}
 } //closes delete
 /** 
@@ -214,7 +212,6 @@ public List<IntervalADT<T>> searchPoint(T point) {
 	List<IntervalADT<T>> list = new ArrayList<IntervalADT<T>>();
 	searchPointHelper(root, point, list);
 	return list;
-}
 } //closes searchPoint
 /**
  * Search and return a list of all intervals containing a given point. 
